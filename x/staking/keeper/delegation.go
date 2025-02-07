@@ -2,8 +2,11 @@ package keeper
 
 import (
 	"bytes"
+	"errors"
 	"fmt"
 	"time"
+
+	nativemath "math"
 
 	"cosmossdk.io/math"
 	sdk "github.com/cosmos/cosmos-sdk/types"
@@ -655,6 +658,13 @@ func (k Keeper) Delegate(
 		return math.LegacyZeroDec(), err
 	}
 
+	// check if there is no overflow in max power
+	valSet := k.GetValidatorSet()
+	updatedBondedTokens := valSet.TotalBondedTokens(ctx).Add(bondAmt)
+	if k.TokensToConsensusPower(ctx, updatedBondedTokens) >= int64(nativemath.MaxInt64)/8 {
+		return math.LegacyZeroDec(), errors.New("delegation is going to exceed max total voting power")
+	}
+
 	delegatorAddress := sdk.MustAccAddressFromBech32(delegation.DelegatorAddress)
 
 	// if subtractAccount is true then we are
@@ -926,6 +936,13 @@ func (k Keeper) BeginRedelegation(
 
 	if returnAmount.IsZero() {
 		return time.Time{}, types.ErrTinyRedelegationAmount
+	}
+
+	// check if there is no overflow in max power
+	valSet := k.GetValidatorSet()
+	updatedBondedTokens := valSet.TotalBondedTokens(ctx).Add(returnAmount)
+	if k.TokensToConsensusPower(ctx, updatedBondedTokens) >= int64(nativemath.MaxInt64)/8 {
+		return time.Time{}, errors.New("delegation is going to exceed max total voting power")
 	}
 
 	sharesCreated, err := k.Delegate(ctx, delAddr, returnAmount, srcValidator.GetStatus(), dstValidator, false)
