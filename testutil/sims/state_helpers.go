@@ -206,7 +206,9 @@ func AppStateRandomizedFn(
 	)
 	appParams.GetOrGenerate(
 		cdc, StakePerAccount, &initialStake, r,
-		func(r *rand.Rand) { initialStake = math.NewInt(r.Int63n(1e12)) },
+		func(r *rand.Rand) {
+			initialStake = math.NewInt(r.Int63n(1e9)).Mul(sdk.DefaultPowerReduction)
+		},
 	)
 	appParams.GetOrGenerate(
 		cdc, InitiallyBondedValidators, &numInitiallyBonded, r,
@@ -220,7 +222,7 @@ func AppStateRandomizedFn(
 	fmt.Printf(
 		`Selected randomly generated parameters for simulated genesis:
 {
-  stake_per_account: "%d",
+  stake_per_account: "%s",
   initially_bonded_validators: "%d"
 }
 `, initialStake, numInitiallyBonded,
