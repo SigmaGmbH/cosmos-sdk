@@ -1,5 +1,10 @@
 package types
 
+import (
+	"cosmossdk.io/math"
+	"math/big"
+)
+
 // Delay, in blocks, between when validator updates are returned to the
 // consensus-engine and when they are applied. For example, if
 // ValidatorUpdateDelay is set to X, and if a validator set update is
@@ -17,7 +22,7 @@ var (
 	DefaultBondDenom = "stake"
 
 	// DefaultPowerReduction is the default amount of staking tokens required for 1 unit of consensus-engine power
-	DefaultPowerReduction = NewIntFromUint64(1000000)
+	DefaultPowerReduction = math.NewIntFromBigInt(new(big.Int).Exp(big.NewInt(10), big.NewInt(18), nil))
 )
 
 // TokensToConsensusPower - convert input tokens to potential consensus-engine power
