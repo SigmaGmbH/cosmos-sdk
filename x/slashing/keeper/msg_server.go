@@ -2,6 +2,7 @@ package keeper
 
 import (
 	"context"
+	sdkerrors "cosmossdk.io/errors"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/errors"
@@ -39,6 +40,9 @@ func (k msgServer) UpdateParams(goCtx context.Context, req *types.MsgUpdateParam
 // Validators must submit a transaction to unjail itself after
 // having been jailed (and thus unbonded) for downtime
 func (k msgServer) Unjail(goCtx context.Context, msg *types.MsgUnjail) (*types.MsgUnjailResponse, error) {
+	// TODO: Remove after v1.0.7
+	return nil, sdkerrors.Wrap(types.ErrValidatorJailed, "unjail is disabled until v1.0.7")
+
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
 	valAddr, valErr := sdk.ValAddressFromBech32(msg.ValidatorAddr)

@@ -634,6 +634,8 @@ func (k Keeper) Delegate(
 	ctx sdk.Context, delAddr sdk.AccAddress, bondAmt math.Int, tokenSrc types.BondStatus,
 	validator types.Validator, subtractAccount bool,
 ) (newShares sdk.Dec, err error) {
+	// TODO: Remove after v1.0.7
+	return math.LegacyZeroDec(), sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "delegate is disabled until v1.0.7")
 	// In some situations, the exchange rate becomes invalid, e.g. if
 	// Validator loses all tokens due to slashing. In this case,
 	// make all future delegations invalid.
@@ -906,6 +908,9 @@ func (k Keeper) CompleteUnbonding(ctx sdk.Context, delAddr sdk.AccAddress, valAd
 func (k Keeper) BeginRedelegation(
 	ctx sdk.Context, delAddr sdk.AccAddress, valSrcAddr, valDstAddr sdk.ValAddress, sharesAmount sdk.Dec,
 ) (completionTime time.Time, err error) {
+	// TODO: Remove after v1.0.7
+	return time.Time{}, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "redelegation is disabled until v1.0.7")
+
 	if bytes.Equal(valSrcAddr, valDstAddr) {
 		return time.Time{}, types.ErrSelfRedelegation
 	}

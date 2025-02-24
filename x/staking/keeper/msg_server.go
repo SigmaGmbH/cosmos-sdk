@@ -31,6 +31,9 @@ var _ types.MsgServer = msgServer{}
 
 // CreateValidator defines a method for creating a new validator
 func (k msgServer) CreateValidator(goCtx context.Context, msg *types.MsgCreateValidator) (*types.MsgCreateValidatorResponse, error) {
+	// TODO: Remove after v1.0.7
+	return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "createValidator is disabled until v1.0.7")
+
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
 	valAddr, err := sdk.ValAddressFromBech32(msg.ValidatorAddress)
@@ -197,6 +200,9 @@ func (k msgServer) EditValidator(goCtx context.Context, msg *types.MsgEditValida
 
 // Delegate defines a method for performing a delegation of coins from a delegator to a validator
 func (k msgServer) Delegate(goCtx context.Context, msg *types.MsgDelegate) (*types.MsgDelegateResponse, error) {
+	// TODO: Remove after v1.0.7
+	return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "delegate is disabled until v1.0.7")
+
 	ctx := sdk.UnwrapSDKContext(goCtx)
 	valAddr, valErr := sdk.ValAddressFromBech32(msg.ValidatorAddress)
 	if valErr != nil {
@@ -251,6 +257,9 @@ func (k msgServer) Delegate(goCtx context.Context, msg *types.MsgDelegate) (*typ
 
 // BeginRedelegate defines a method for performing a redelegation of coins from a delegator and source validator to a destination validator
 func (k msgServer) BeginRedelegate(goCtx context.Context, msg *types.MsgBeginRedelegate) (*types.MsgBeginRedelegateResponse, error) {
+	// TODO: Remove after v1.0.7
+	return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "redelegation is disabled until v1.0.7")
+
 	ctx := sdk.UnwrapSDKContext(goCtx)
 	valSrcAddr, err := sdk.ValAddressFromBech32(msg.ValidatorSrcAddress)
 	if err != nil {
@@ -314,6 +323,9 @@ func (k msgServer) BeginRedelegate(goCtx context.Context, msg *types.MsgBeginRed
 
 // Undelegate defines a method for performing an undelegation from a delegate and a validator
 func (k msgServer) Undelegate(goCtx context.Context, msg *types.MsgUndelegate) (*types.MsgUndelegateResponse, error) {
+	// TODO: Remove after v1.0.7
+	return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "Undelegate is disabled until v1.0.7")
+
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
 	addr, err := sdk.ValAddressFromBech32(msg.ValidatorAddress)
@@ -371,6 +383,9 @@ func (k msgServer) Undelegate(goCtx context.Context, msg *types.MsgUndelegate) (
 // CancelUnbondingDelegation defines a method for canceling the unbonding delegation
 // and delegate back to the validator.
 func (k msgServer) CancelUnbondingDelegation(goCtx context.Context, msg *types.MsgCancelUnbondingDelegation) (*types.MsgCancelUnbondingDelegationResponse, error) {
+	// TODO: Remove after v1.0.7
+	return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "cancelUnbondingDelegation is disabled until v1.0.7")
+
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
 	valAddr, err := sdk.ValAddressFromBech32(msg.ValidatorAddress)

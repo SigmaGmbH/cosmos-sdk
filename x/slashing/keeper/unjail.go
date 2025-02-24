@@ -9,6 +9,9 @@ import (
 // Unjail calls the staking Unjail function to unjail a validator if the
 // jailed period has concluded
 func (k Keeper) Unjail(ctx sdk.Context, validatorAddr sdk.ValAddress) error {
+	// TODO: Remove after v1.0.7
+	return sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "unjail is disabled until v1.0.7")
+
 	validator := k.sk.Validator(ctx, validatorAddr)
 	if validator == nil {
 		return types.ErrNoValidatorForAddress
