@@ -323,9 +323,6 @@ func (k msgServer) BeginRedelegate(goCtx context.Context, msg *types.MsgBeginRed
 
 // Undelegate defines a method for performing an undelegation from a delegate and a validator
 func (k msgServer) Undelegate(goCtx context.Context, msg *types.MsgUndelegate) (*types.MsgUndelegateResponse, error) {
-	// TODO: Remove after v1.0.7
-	return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "Undelegate is disabled until v1.0.7")
-
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
 	addr, err := sdk.ValAddressFromBech32(msg.ValidatorAddress)
